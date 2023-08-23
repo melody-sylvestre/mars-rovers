@@ -1,0 +1,17 @@
+{
+  "name": "mars-rovers",
+  "version": "1.0.0",
+  "description": "API to move 2 rovers on Mars",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "Melody Sylvestre",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.6.3"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
