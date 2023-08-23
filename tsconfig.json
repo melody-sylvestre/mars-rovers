@@ -1,0 +1,9 @@
+{
+	"include": [
+        "src/**/*"
+    ], 
+	"compilerOptions": {
+		"noImplicitAny": true, 
+        "esModuleInterop": true, 
+	}
+}
