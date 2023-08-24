@@ -28,9 +28,8 @@ const validateUpperRightCoordinates = (upperRightCoordinates: string): boolean =
   let upperRightCoordinatesAreValid: boolean = true;
   const format = /^\d+\s+\d+$/;
 
-  if (format.test(upperRightCoordinates)) {
+  if( format.test(upperRightCoordinates )) {
     const coordinatesAsString: Array<string> = upperRightCoordinates.split(" ");
-
     for (let i = 0; i < coordinatesAsString.length; i++) {
       if (Number(coordinatesAsString[i]) === 0) {
         upperRightCoordinatesAreValid = false;
@@ -43,4 +42,23 @@ const validateUpperRightCoordinates = (upperRightCoordinates: string): boolean =
   return upperRightCoordinatesAreValid;
 };
 
-export { validateInputFormat, validateUpperRightCoordinates };
+const validateRoverPosition = (roverPosition:string, maxPositionX: number, maxPositionY: number): boolean => {
+  // Check that rover position has format number number orientation
+  // Numbers should be consistent with upperRightCoordinates and not negative
+  // Orientation should be N, S, W, or E
+
+  let roverPositionIsValid = true
+  
+  const format = /^\d+\s+\d+\s+[NSWE]$/
+  
+  if( format.test(roverPosition) ) {
+    const X = Number(roverPosition.split(' ')[0])
+    const Y = Number(roverPosition.split(' ')[1])
+    roverPositionIsValid = ( X < 0 || Y < 0 || X > maxPositionX || Y > maxPositionY)? false: true 
+  } else {
+    roverPositionIsValid = false 
+  }
+  return roverPositionIsValid
+} 
+
+export { validateInputFormat, validateUpperRightCoordinates, validateRoverPosition };

@@ -1,4 +1,4 @@
-import { validateInputFormat, validateUpperRightCoordinates } from '../src/inputValidators'
+import { validateInputFormat, validateUpperRightCoordinates, validateRoverPosition } from '../src/inputValidators'
 
 describe("Checking that input format can be correctly validated (validateInputFormat)", ()=>{
     
@@ -114,6 +114,45 @@ describe("Checking that upper rights coordinates can be correctly validated (val
     test("Y coordinate is 0", () => {
         const upperRightCoordinates: string = "3 0"
         expect(validateUpperRightCoordinates(upperRightCoordinates)).toBe(false)
+    })
+})
+
+describe("Checking that rover position string can be validated (validateRoverPosition", ()=> {
+    
+    test("Correct rover position - example 1", () => {
+        expect(validateRoverPosition("0 0 N", 10, 20)).toBe(true)
+    })
+
+    test("Correct rover position - example 2", () => {
+        expect(validateRoverPosition("20   20    W", 25, 20)).toBe(true)
+    })
+
+    test("Incorrect rover position - empty string", () => {
+        expect(validateRoverPosition("", 25, 2)).toBe(false)
+    })
+
+    test("Incorrect rover position - string improperly formatted", () => {
+        expect(validateRoverPosition("55N", 5, 5)).toBe(false)
+    })
+
+    test("Incorrect rover position - invalid orientation", () => {
+        expect(validateRoverPosition("5 5 SW", 5, 5)).toBe(false)
+    })
+
+    test("Incorrect rover position - negative X", () => {
+        expect(validateRoverPosition("-1 3 N", 25, 2)).toBe(false)
+    })
+
+    test("Incorrect rover position - negative Y", () => {
+        expect(validateRoverPosition("0 -3 N", 25, 2)).toBe(false)
+    })
+
+    test("Incorrect rover position - X > upper right coordinates", () => {
+        expect(validateRoverPosition("5 0 N", 4, 3)).toBe(false)
+    })
+
+    test("Incorrect rover position - Y > upper right coordinates", () => {
+        expect(validateRoverPosition("0 20 N", 4, 4)).toBe(false)
     })
 })
 
