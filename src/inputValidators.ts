@@ -1,9 +1,10 @@
 import { roversCommands } from "./interfaces"
-
-const validateRoversCommandsFormat = (input: any): boolean => {
-    // check that the input has the right number of lines and the right keys
+const validateInputFormat = (input: any): boolean => {
+// Check that input has the right number of lines and right keys
+    
     if( Object.keys(input).length !==5 ) {
-        throw "Invalid input format: rovers commands should have exactly 5 lines"
+        return false
+    
     } else {
         const requiredFields = [
             "upperRightCoordinates", 
@@ -15,7 +16,7 @@ const validateRoversCommandsFormat = (input: any): boolean => {
         
         for (let i = 0; i < requiredFields.length; i++ ) {
             if( !input.hasOwnProperty(requiredFields[i])) {
-                throw `Invalid input format: rovers commands should include the line ${requiredFields[i]}`
+                return false 
             }
         }
     }       
@@ -23,4 +24,4 @@ const validateRoversCommandsFormat = (input: any): boolean => {
     return true
 }
 
-export { validateRoversCommandsFormat }
+export { validateInputFormat }

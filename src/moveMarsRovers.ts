@@ -1,20 +1,21 @@
 import {Request, Response} from 'express'
 import { roversCommands, roversOutput } from './interfaces'
-import { validateRoversCommandsFormat } from './inputValidators'
+import { validateInputFormat } from './inputValidators'
 
+//implement true / false validation instead of exceptions
 const moveMarsRovers = (request:Request, response:Response) => {
     let input:any = request.body
     
-    try {
-       const commandsAreValid:boolean = validateRoversCommandsFormat(input)    
-    } catch (exception) {
+    if(!validateInputFormat(input)) {
         const output: roversOutput = 
         {
-            message: exception, 
+            message: "Incorrect input format: commands should have exactly 5 lines and the following keys: upperRightCoordinates,  rover1Position, rover1Instructions, rover2Position, rover2Instructions",  
             finalRover1Position: "", 
             finalRover2Position: ""
         }
-        response.status(400).json(output)   
+        response.status(400).json(output)      
+    } else {
+        response.status(200).send('OK') 
     }
 
 //    response.sendStatus(200)
