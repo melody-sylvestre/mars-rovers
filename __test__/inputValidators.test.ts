@@ -1,6 +1,6 @@
-import { validateInputFormat } from '../src/inputValidators'
+import { validateInputFormat, validateUpperRightCoordinates } from '../src/inputValidators'
 
-describe("Checking that input format can be correctly validated", ()=>{
+describe("Checking that input format can be correctly validated (validateInputFormat)", ()=>{
     
     test("Input has the correct format", () => {
         const input = {
@@ -78,3 +78,42 @@ describe("Checking that input format can be correctly validated", ()=>{
         expect(validateInputFormat(input)).toBe(false)
     })
 })
+
+describe("Checking that upper rights coordinates can be correctly validated (validateUpperRigthCoordinates)", () => {
+    
+    test("Upper right coordinates have the correct format i.e. 2 strictly positive numbers", () => {
+        const upperRightCoordinates: string = "25 35"
+        expect(validateUpperRightCoordinates(upperRightCoordinates)).toBe(true)
+    })
+
+    test("Upper right coordinates have the correct format i.e. 2 strictly positive numbers", () => {
+        const upperRightCoordinates: string = "1 2"
+        expect(validateUpperRightCoordinates(upperRightCoordinates)).toBe(true)
+    })
+
+    test("Upper right coordinates have wrong format - e.g. too many numbers", () => {
+        const upperRightCoordinates: string = "25 35 33"
+        expect(validateUpperRightCoordinates(upperRightCoordinates)).toBe(false)
+    })
+
+    test("Upper right coordinates have wrong format - e.g. empty string", () => {
+        const upperRightCoordinates: string = ""
+        expect(validateUpperRightCoordinates(upperRightCoordinates)).toBe(false)
+    })
+   
+    test("Upper right coordinates have wrong format - e.g. numbers and letters", () => {
+        const upperRightCoordinates: string = "25 A"
+        expect(validateUpperRightCoordinates(upperRightCoordinates)).toBe(false)
+    })  
+
+    test("X coordinate is 0", () => {
+        const upperRightCoordinates: string = "0 3"
+        expect(validateUpperRightCoordinates(upperRightCoordinates)).toBe(false)
+    })
+    
+    test("Y coordinate is 0", () => {
+        const upperRightCoordinates: string = "3 0"
+        expect(validateUpperRightCoordinates(upperRightCoordinates)).toBe(false)
+    })
+})
+
