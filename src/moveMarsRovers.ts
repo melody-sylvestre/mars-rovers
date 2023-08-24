@@ -1,5 +1,5 @@
 import {Request, Response} from 'express'
-import { roversCommands, roversOutput } from './interfaces'
+import { roversOutput } from './interfaces'
 import { validateInputFormat } from './inputValidators'
 
 //implement true / false validation instead of exceptions
