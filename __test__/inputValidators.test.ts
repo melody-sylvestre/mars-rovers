@@ -1,4 +1,4 @@
-import { validateInputFormat, validateUpperRightCoordinates, validateRoverPosition } from '../src/inputValidators'
+import { validateInputFormat, validateUpperRightCoordinates, validateRoverPosition, validateRoverInstructions } from '../src/inputValidators'
 
 describe("Checking that input format can be correctly validated (validateInputFormat)", ()=>{
     
@@ -117,7 +117,7 @@ describe("Checking that upper rights coordinates can be correctly validated (val
     })
 })
 
-describe("Checking that rover position string can be validated (validateRoverPosition", ()=> {
+describe("Checking that rover position string can be validated (validateRoverPosition)", ()=> {
     
     test("Correct rover position - example 1", () => {
         expect(validateRoverPosition("0 0 N", 10, 20)).toBe(true)
@@ -153,6 +153,24 @@ describe("Checking that rover position string can be validated (validateRoverPos
 
     test("Incorrect rover position - Y > upper right coordinates", () => {
         expect(validateRoverPosition("0 20 N", 4, 4)).toBe(false)
+    })
+})
+
+describe("Checking that rover instruction string can be validated (validateRoverInstructions)", ()=> {
+    test("Correct instructions - empty string", () => {
+        expect(validateRoverInstructions(" ")).toBe(true)
+    })
+
+    test("Correct instructions - non-empty string", () => {
+        expect(validateRoverInstructions("LMRRRRMM")).toBe(true)
+    })
+
+    test("Incorrect instructions - illegal character", () => {
+        expect(validateRoverInstructions("LMLLLX")).toBe(false)
+    })    
+
+    test("Incorrect instructions - whitespace in the middle", () => {
+        expect(validateRoverInstructions("LML  LMR")).toBe(false)
     })
 })
 

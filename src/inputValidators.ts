@@ -22,6 +22,8 @@ const validateInputFormat = (input: any): boolean => {
   return true;
 };
 
+//TODO trim input!!!!! 
+
 const validateUpperRightCoordinates = (upperRightCoordinates: string): boolean => {
   // Checking that 2 strictly positive numbers were given
 
@@ -61,4 +63,17 @@ const validateRoverPosition = (roverPosition:string, maxPositionX: number, maxPo
   return roverPositionIsValid
 } 
 
-export { validateInputFormat, validateUpperRightCoordinates, validateRoverPosition };
+const validateRoverInstructions = (roverInstructions:string) : boolean => {
+  // Check that roverInstuctions is either an empty string (maybe we want to move only 1 rover at a time?)
+  // or that it does not countain any other character apart from L, M, and R
+  
+  const roverInstructionsClean = roverInstructions.trim()
+  if( roverInstructionsClean === '' ){
+    return true
+  } else {
+    const illegalStringFormat = /[^LMR]/
+    return illegalStringFormat.test( roverInstructionsClean ) ? false : true 
+  }
+}
+
+export { validateInputFormat, validateUpperRightCoordinates, validateRoverPosition, validateRoverInstructions };
