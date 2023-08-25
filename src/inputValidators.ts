@@ -2,7 +2,7 @@ const validateInputFormat = (input: any): boolean => {
   // Check that input has the right number of lines and right keys
 
   if (Object.keys(input).length !== 5) {
-    return false;
+    return false
   } else {
     const requiredFields = [
       "upperRightCoordinates",
@@ -10,70 +10,63 @@ const validateInputFormat = (input: any): boolean => {
       "rover1Instructions",
       "rover2Position",
       "rover2Instructions",
-    ];
+    ]
 
     for (let i = 0; i < requiredFields.length; i++) {
       if (!input.hasOwnProperty(requiredFields[i])) {
-        return false;
+        return false
       }
     }
   }
-
   return true;
-};
-
-//TODO trim input!!!!! 
+}
 
 const validateUpperRightCoordinates = (upperRightCoordinates: string): boolean => {
-  // Checking that 2 strictly positive numbers were given
+  // Check that 2 strictly positive numbers were given
 
-  let upperRightCoordinatesAreValid: boolean = true;
-  const format = /^\d+\s+\d+$/;
+  let upperRightCoordinatesAreValid: boolean = true
+  const upperRightCoordinatesClean: string = upperRightCoordinates.trim()
+  const goodFormat = /^\d+\s+\d+$/
 
-  if( format.test(upperRightCoordinates )) {
-    const coordinatesAsString: Array<string> = upperRightCoordinates.split(" ");
-    for (let i = 0; i < coordinatesAsString.length; i++) {
-      if (Number(coordinatesAsString[i]) === 0) {
-        upperRightCoordinatesAreValid = false;
-      }
-    }
+  if (goodFormat.test(upperRightCoordinatesClean)) {
+    const coordinatesAsString: Array<string> = upperRightCoordinatesClean.split(" ")
+    upperRightCoordinatesAreValid = (Number(coordinatesAsString[0]) === 0 || Number(coordinatesAsString[1]) === 0) ? false : true
   } else {
-    upperRightCoordinatesAreValid = false;
+    upperRightCoordinatesAreValid = false
   }
+  return upperRightCoordinatesAreValid
+}
 
-  return upperRightCoordinatesAreValid;
-};
-
-const validateRoverPosition = (roverPosition:string, maxPositionX: number, maxPositionY: number): boolean => {
+const validateRoverPosition = (roverPosition: string, maxPositionX: number, maxPositionY: number): boolean => {
   // Check that rover position has format number number orientation
   // Numbers should be consistent with upperRightCoordinates and not negative
   // Orientation should be N, S, W, or E
 
   let roverPositionIsValid = true
-  
-  const format = /^\d+\s+\d+\s+[NSWE]$/
-  
-  if( format.test(roverPosition) ) {
-    const X = Number(roverPosition.split(' ')[0])
-    const Y = Number(roverPosition.split(' ')[1])
-    roverPositionIsValid = ( X < 0 || Y < 0 || X > maxPositionX || Y > maxPositionY)? false: true 
+  const roverPositionClean: string = roverPosition.trim()
+  const goodFormat = /^\d+\s+\d+\s+[NSWE]$/
+
+  if (goodFormat.test(roverPositionClean)) {
+    const X = Number(roverPositionClean.split(' ')[0])
+    const Y = Number(roverPositionClean.split(' ')[1])
+    roverPositionIsValid = (X < 0 || Y < 0 || X > maxPositionX || Y > maxPositionY) ? false : true
   } else {
-    roverPositionIsValid = false 
+    roverPositionIsValid = false
   }
   return roverPositionIsValid
-} 
+}
 
-const validateRoverInstructions = (roverInstructions:string) : boolean => {
+const validateRoverInstructions = (roverInstructions: string): boolean => {
   // Check that roverInstuctions is either an empty string (maybe we want to move only 1 rover at a time?)
   // or that it does not countain any other character apart from L, M, and R
-  
-  const roverInstructionsClean = roverInstructions.trim()
-  if( roverInstructionsClean === '' ){
+
+  const roverInstructionsClean: string = roverInstructions.trim()
+  if (roverInstructionsClean === '') {
     return true
   } else {
     const illegalStringFormat = /[^LMR]/
-    return illegalStringFormat.test( roverInstructionsClean ) ? false : true 
+    return illegalStringFormat.test(roverInstructionsClean) ? false : true
   }
 }
 
-export { validateInputFormat, validateUpperRightCoordinates, validateRoverPosition, validateRoverInstructions };
+export { validateInputFormat, validateUpperRightCoordinates, validateRoverPosition, validateRoverInstructions }

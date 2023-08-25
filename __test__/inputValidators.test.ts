@@ -1,7 +1,9 @@
-import { validateInputFormat, validateUpperRightCoordinates, validateRoverPosition, validateRoverInstructions } from '../src/inputValidators'
+import { validateInputFormat, 
+        validateUpperRightCoordinates, 
+        validateRoverPosition, 
+        validateRoverInstructions } from '../src/inputValidators'
 
 describe("Checking that input format can be correctly validated (validateInputFormat)", ()=>{
-    
     test("Input has the correct format", () => {
         const input = {
             upperRightCoordinates: "5 5",
@@ -80,14 +82,13 @@ describe("Checking that input format can be correctly validated (validateInputFo
 })
 
 describe("Checking that upper rights coordinates can be correctly validated (validateUpperRigthCoordinates)", () => {
-    
     test("Upper right coordinates have the correct format i.e. 2 strictly positive numbers", () => {
         const upperRightCoordinates: string = "25 35"
         expect(validateUpperRightCoordinates(upperRightCoordinates)).toBe(true)
     })
 
     test("Upper right coordinates have the correct format i.e. 2 strictly positive numbers", () => {
-        const upperRightCoordinates: string = "1 2"
+        const upperRightCoordinates: string = " 1 2 "
         expect(validateUpperRightCoordinates(upperRightCoordinates)).toBe(true)
     })
 
@@ -118,13 +119,12 @@ describe("Checking that upper rights coordinates can be correctly validated (val
 })
 
 describe("Checking that rover position string can be validated (validateRoverPosition)", ()=> {
-    
     test("Correct rover position - example 1", () => {
         expect(validateRoverPosition("0 0 N", 10, 20)).toBe(true)
     })
 
     test("Correct rover position - example 2", () => {
-        expect(validateRoverPosition("20   20    W", 25, 20)).toBe(true)
+        expect(validateRoverPosition("  20   20    W  ", 25, 20)).toBe(true)
     })
 
     test("Incorrect rover position - empty string", () => {
