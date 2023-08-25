@@ -1,4 +1,4 @@
-import { move } from '../src/roversMotions'
+import { move, rotate } from '../src/roversMotions'
 
 describe("Testing that move instuctions (M) are correctly executed", () => {
     test("Moving northward", () => {
@@ -16,4 +16,24 @@ describe("Testing that move instuctions (M) are correctly executed", () => {
     test("Moving westward", () => {
         expect(move('101 100 W')).toBe('100 100 W')
     })
+})
+
+describe("Testing that rotate instructions (L or R) are correctly executed", () => {
+    test('Rotating Left from N', () => {
+        expect(rotate('2 2 N', 'L')).toBe('2 2 W')
+    })
+
+    test('Rotating Left from W', () => {
+        expect(rotate('45 34 W', 'L')).toBe('45 34 S')
+    })
+    
+    test('Rotating Left from S', () => {
+        expect(rotate('10 9 S', 'L')).toBe('10 9 E')
+    })
+
+    test('Rotating Left from E', () => {
+        expect(rotate('5 6 E', 'L')).toBe('5 6 N')
+    })
+
+// TODO same tests in the R directions 
 })
