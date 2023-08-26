@@ -12,6 +12,16 @@ describe("Testing that input can be parsed correctly into a command object", () 
         expect(commandsParser(input)).toEqual(expectedResult)
     })
 
+    test("Success: breaking input into the right command object - 1 rover and a lot of whitespace to remove", () => {
+        const input = "25     24 \n   18    13  N \n  MMR   "
+        const expectedResult: roversCommands = {
+            upperRightCoordinates: "25 24",
+            roverPositions: ['18 13 N'],
+            roverInstructions: ['MMR']
+        }
+        expect(commandsParser(input)).toEqual(expectedResult)
+    })
+
     test("Success: breaking input into the right command object - 3 rovers", () => {
         const input = "5 5 \n 1 2 N \n MM \n 3 3 E \n LL \n 4 2 W \n MMMLLRR"
         const expectedResult: roversCommands = {

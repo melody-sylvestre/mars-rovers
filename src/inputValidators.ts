@@ -6,14 +6,14 @@ const validateNumberOfCommandLines = (input: string): boolean => {
 
 const validateUpperRightCoordinates = (upperRightCoordinates: string): boolean => {
   // Check that 2 strictly positive integers were given
-
+  
   let upperRightCoordinatesAreValid: boolean = true
-  const upperRightCoordinatesClean: string = upperRightCoordinates.trim()
-  const goodFormat = /^\d+\s+\d+$/
+  const goodFormat = /^\d+\s\d+$/
 
-  if (goodFormat.test(upperRightCoordinatesClean)) {
-    const coordinatesAsString: Array<string> = upperRightCoordinatesClean.split(" ")
-    upperRightCoordinatesAreValid = (Number(coordinatesAsString[0]) === 0 || Number(coordinatesAsString[1]) === 0) ? false : true
+  if (goodFormat.test(upperRightCoordinates)) {
+    let coordinatesArray: Array<string> = upperRightCoordinates.split(' ')
+    upperRightCoordinatesAreValid = (Number(coordinatesArray[0]) === 0 || Number(coordinatesArray[1]) === 0) ? false : true
+
   } else {
     upperRightCoordinatesAreValid = false
   }
@@ -26,12 +26,11 @@ const validateRoverPosition = (roverPosition: string, maxPositionX: number, maxP
   // Orientation should be N, S, W, or E
 
   let roverPositionIsValid = true
-  const roverPositionClean: string = roverPosition.trim()
-  const goodFormat = /^\d+\s+\d+\s+[NSWE]$/
+  const goodFormat = /^\d+\s\d+\s[NSWE]$/
 
-  if (goodFormat.test(roverPositionClean)) {
-    const X = Number(roverPositionClean.split(' ')[0])
-    const Y = Number(roverPositionClean.split(' ')[1])
+  if (goodFormat.test(roverPosition)) {
+    const X = Number(roverPosition.split(' ')[0])
+    const Y = Number(roverPosition.split(' ')[1])
     roverPositionIsValid = (X < 0 || Y < 0 || X > maxPositionX || Y > maxPositionY) ? false : true
   } else {
     roverPositionIsValid = false
@@ -43,12 +42,11 @@ const validateRoverInstructions = (roverInstructions: string): boolean => {
   // Check that roverInstuctions is either an empty string (maybe we want to move only 1 rover at a time?)
   // or that it does not countain any other character apart from L, M, and R
 
-  const roverInstructionsClean: string = roverInstructions.trim()
-  if (roverInstructionsClean === '') {
+  if (roverInstructions === '') {
     return true
   } else {
     const illegalStringFormat = /[^LMR]/
-    return illegalStringFormat.test(roverInstructionsClean) ? false : true
+    return illegalStringFormat.test(roverInstructions) ? false : true
   }
 }
 

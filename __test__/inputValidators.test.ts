@@ -24,7 +24,7 @@ describe("Checking that an incorrect number of lines in the input can be detecte
 })
 
 describe("Checking that upper rights coordinates can be correctly validated (validateUpperRigthCoordinates)", () => {
-    test("Upper right coordinates have the correct format i.e. 2 strictly positive numbers", () => {
+    test("Upper right coordinates have the correct format - multiple spaces between the 2 numbers", () => {
         const upperRightCoordinates: string = "25 35"
         expect(validateUpperRightCoordinates(upperRightCoordinates)).toBe(true)
     })
@@ -37,11 +37,11 @@ describe("Checking that upper rights coordinates can be correctly validated (val
         expect(validateUpperRightCoordinates(upperRightCoordinates)).toBe(false)
     })
     test("Upper right coordinates have wrong format e.g. 1st number is not an integer", () => {
-        const upperRightCoordinates: string = " 10.1 15 "
+        const upperRightCoordinates: string = "10.1 15"
         expect(validateUpperRightCoordinates(upperRightCoordinates)).toBe(false)
     })
     test("Upper right coordinates have wrong format e.g. 2nd number is not an integer", () => {
-        const upperRightCoordinates: string = " 1 15.6 "
+        const upperRightCoordinates: string = "1 15.6"
         expect(validateUpperRightCoordinates(upperRightCoordinates)).toBe(false)
     })
     test("Upper right coordinates have wrong format - e.g. too many numbers", () => {
@@ -71,7 +71,7 @@ describe("Checking that rover position string can be validated (validateRoverPos
         expect(validateRoverPosition("0 0 N", 10, 20)).toBe(true)
     })
     test("Correct rover position - example 2", () => {
-        expect(validateRoverPosition("  20   20    W  ", 25, 20)).toBe(true)
+        expect(validateRoverPosition("20 20 W", 25, 20)).toBe(true)
     })
     test("Incorrect rover position - empty string", () => {
         expect(validateRoverPosition("", 25, 2)).toBe(false)
@@ -119,7 +119,7 @@ describe("Checking that potential collisions can be detected i.e. 2 rovers are i
 
 describe("Checking that rover instruction string can be validated (validateRoverInstructions)", ()=> {
     test("Correct instructions - empty string", () => {
-        expect(validateRoverInstructions(" ")).toBe(true)
+        expect(validateRoverInstructions("")).toBe(true)
     })
     test("Correct instructions - non-empty string", () => {
         expect(validateRoverInstructions("LMRRRRMM")).toBe(true)
@@ -128,7 +128,7 @@ describe("Checking that rover instruction string can be validated (validateRover
         expect(validateRoverInstructions("LMLLLX")).toBe(false)
     })    
     test("Incorrect instructions - whitespace in the middle", () => {
-        expect(validateRoverInstructions("LML  LMR")).toBe(false)
+        expect(validateRoverInstructions("LML    LMR")).toBe(false)
     })
 })
 

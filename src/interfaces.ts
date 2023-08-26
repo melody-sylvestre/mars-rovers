@@ -1,5 +1,5 @@
 export interface finalRoverStatus {
-    roverPosition: string 
+    roverPositions: Array<string> 
     message: string
     instructionsComplete: boolean
 }
@@ -12,6 +12,5 @@ export interface roversCommands {
 
 export interface roversOutput {
     message: string
-    finalRover1Position: string
-    finalRover2Position: string
+    finalRoverPositions: Array<string>
 }
