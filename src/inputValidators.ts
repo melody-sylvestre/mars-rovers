@@ -5,7 +5,7 @@ const validateNumberOfCommandLines = (input: string): boolean => {
 }
 
 const validateUpperRightCoordinates = (upperRightCoordinates: string): boolean => {
-  // Check that 2 strictly positive numbers were given
+  // Check that 2 strictly positive integers were given
 
   let upperRightCoordinatesAreValid: boolean = true
   const upperRightCoordinatesClean: string = upperRightCoordinates.trim()
@@ -21,7 +21,7 @@ const validateUpperRightCoordinates = (upperRightCoordinates: string): boolean =
 }
 
 const validateRoverPosition = (roverPosition: string, maxPositionX: number, maxPositionY: number): boolean => {
-  // Check that rover position has format number number orientation
+  // Check that rover position has format integer integer orientation
   // Numbers should be consistent with upperRightCoordinates and not negative
   // Orientation should be N, S, W, or E
 

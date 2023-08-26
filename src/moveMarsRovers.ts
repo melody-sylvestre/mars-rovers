@@ -26,7 +26,7 @@ const moveMarsRovers = (request: Request, response: Response) => {
   } else {
     const inputCommands: roversCommands = commandsParser(input)
     if (!validateUpperRightCoordinates(inputCommands.upperRightCoordinates)) {
-      output.message = "Incorrect input format: upperRightCoordinates should be 2 strictly positive numbers (e.g. '5 5')"
+      output.message = "Incorrect input format: upperRightCoordinates should be 2 strictly positive integers (e.g. '5 4')"
       statusCode = 400
     
     } else {
