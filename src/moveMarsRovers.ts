@@ -1,14 +1,15 @@
 import { Request, Response } from "express";
-import { roversOutput } from "./interfaces";
+import { finalRoverStatus, roversOutput } from "./interfaces";
 import {
   validateInputFormat,
   validateRoverInstructions,
   validateRoverPosition,
   validateUpperRightCoordinates,
 } from "./inputValidators";
+import { executeRoverInstructions } from './roversMotions'
 
 const moveMarsRovers = (request: Request, response: Response) => {
-  let input: any = request.body;
+  const input: any = request.body;
   let output: roversOutput = {
     message: "",
     finalRover1Position: "",
@@ -44,18 +45,23 @@ const moveMarsRovers = (request: Request, response: Response) => {
       statusCode = 400
 
     } else {
-      output.message = "OK"
-      statusCode = 200
+      const rover1Position: string = input.rover1Position.trim()
+      const rover2Position: string = input.rover2Position.trim()
+      const rover1Instructions: string = input.rover1Instructions.trim()
+      const rover2Instructions: string = input.rover2Instructions.trim()
+
+      const rover1FinalStatus: finalRoverStatus = executeRoverInstructions(rover1Position, rover1Instructions, maxPositionX, maxPositionY)
+
+      const rover2FinalStatus: finalRoverStatus = executeRoverInstructions(rover2Position, rover2Instructions, maxPositionX, maxPositionY)
+
+      output.message = `Rover1: ${rover1FinalStatus.message} Rover2: ${rover2FinalStatus.message}`
+      output.finalRover1Position = rover1FinalStatus.roverPosition
+      output.finalRover2Position = rover2FinalStatus.roverPosition
+
+      statusCode = (rover1FinalStatus.instructionsComplete && rover2FinalStatus.instructionsComplete) ? 200 : 400
     }
   }
   response.status(statusCode).json(output)
-
-  // parse json body into object roversCommands -> try / catch if it's the wrong format
-  // validate input
-  // check for negative or number for upper rights coords
-  // check for negative number and illegal characters for rovers position
-  // check for illegal moves (e.g X)
-  // send rovers positions as response and messages ,
-};
+}
 
 export { moveMarsRovers };
