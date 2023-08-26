@@ -1,6 +1,7 @@
 import { validateNumberOfCommandLines, 
         validateUpperRightCoordinates, 
         validateRoverPosition, 
+        validateRoverPositionsAgainstCollisions,
         validateRoverInstructions } from '../src/inputValidators'
 
 describe("Checking that an incorrect number of lines in the input can be detected (validateNumberOfCommandLines)", () => {
@@ -98,6 +99,21 @@ describe("Checking that rover position string can be validated (validateRoverPos
     })
     test("Incorrect rover position - Y > upper right coordinates", () => {
         expect(validateRoverPosition("0 20 N", 4, 4)).toBe(false)
+    })
+})
+
+describe("Checking that potential collisions can be detected i.e. 2 rovers are in the same positions", ()=>{
+    test("No collision: two rovers at different locations", () =>{
+        const roverPositions = ['1 1 N', '1 2 N']
+        expect(validateRoverPositionsAgainstCollisions(roverPositions)).toBe(true)
+    })
+    test("Collision two rovers at the same location", () =>{
+        const roverPositions = ['1 1 N', '1 1 E']
+        expect(validateRoverPositionsAgainstCollisions(roverPositions)).toBe(false)
+    })
+    test("Several collisions but some valid positions too", () =>{
+        const roverPositions = ['10 10 N', '1 1 N','14S 15S', '10 10 N', '0 0 S', '14S 15E', '345 256 W', '14S 15S', '13 14 W','345 256 E']
+        expect(validateRoverPositionsAgainstCollisions(roverPositions)).toBe(false)
     })
 })
 

@@ -21,7 +21,7 @@ const validateUpperRightCoordinates = (upperRightCoordinates: string): boolean =
 }
 
 const validateRoverPosition = (roverPosition: string, maxPositionX: number, maxPositionY: number): boolean => {
-  // Check that rover position has format integer integer orientation
+  // Check that rover position has format integer integer orientation and that rover is on the plateau
   // Numbers should be consistent with upperRightCoordinates and not negative
   // Orientation should be N, S, W, or E
 
@@ -52,4 +52,28 @@ const validateRoverInstructions = (roverInstructions: string): boolean => {
   }
 }
 
-export { validateNumberOfCommandLines, validateUpperRightCoordinates, validateRoverPosition, validateRoverInstructions }
+const validateRoverPositionsAgainstCollisions = (roverPositions: Array<string>): boolean => {
+  // Check if there are collisions by checking if any rover position (excuding the orientation) appears several times
+  // Returns false if there is any collision, true otherwise
+
+  let foundDuplicatedPositions: boolean = false
+  const roverPositionsWithoutOrientation: Array<string> = roverPositions.map((roverPosition) => {
+    let positionArray = roverPosition.split(' ').slice(0, 2)
+    return positionArray.join(' ')
+  })
+
+  foundDuplicatedPositions = roverPositionsWithoutOrientation.some((roverPosition, index) => {
+    return roverPositionsWithoutOrientation.indexOf(roverPosition) !== index
+  })
+  return !foundDuplicatedPositions
+}
+
+
+
+export {
+  validateNumberOfCommandLines,
+  validateUpperRightCoordinates,
+  validateRoverPosition,
+  validateRoverPositionsAgainstCollisions,
+  validateRoverInstructions
+}

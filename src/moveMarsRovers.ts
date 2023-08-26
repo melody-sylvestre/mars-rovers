@@ -4,6 +4,7 @@ import {
   validateNumberOfCommandLines,
   validateRoverInstructions,
   validateRoverPosition,
+  validateRoverPositionsAgainstCollisions,
   validateUpperRightCoordinates,
 } from "./inputValidators";
 import { commandsParser } from "./commandsParser"
@@ -37,7 +38,6 @@ const moveMarsRovers = (request: Request, response: Response) => {
       let foundInvalidInstructions: boolean = false
 
       for (let i = 0; i < numberOfRovers; i++) {
-        // validate Rovers Positions format
         if (!validateRoverPosition(inputCommands.roverPositions[i], maxPositionX, maxPositionY)) {
           statusCode = 400
           foundInvalidPosition = true
@@ -58,8 +58,13 @@ const moveMarsRovers = (request: Request, response: Response) => {
        output.message = `${output.message}Rover instructions must be an empty string or contains only L, M or R. `
       }
 
+      if( !validateRoverPositionsAgainstCollisions(inputCommands.roverPositions)) {
+        statusCode = 400
+        output.message = `${output.message}Some rovers are at the same position!`
+      }
+ 
       // validate rovers positions against collisions -> check duplicates
-      if( !foundInvalidPosition && !foundInvalidInstructions )
+      if( statusCode!=400)
         output.message = 'OK'
     }
   }
