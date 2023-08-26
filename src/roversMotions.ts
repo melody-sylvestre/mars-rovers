@@ -28,7 +28,6 @@ const rotate = (roverPosition: string, direction: string): string => {
     //Change the orientation of the rover following the specified direction
     //Returns the new position of the Rover
     
-    // split rover position 
     const roverPositionArray: Array<string> = roverPosition.split(' ')
     const X: string = roverPositionArray[0]
     const Y: string = roverPositionArray[1]
@@ -42,7 +41,6 @@ const rotate = (roverPosition: string, direction: string): string => {
     } else if( direction === 'R' ){
         newOrientation = index === 3 ? orientationsArray[0] : orientationsArray[index + 1]
     }
-
     return `${X} ${Y} ${newOrientation}`
 } 
 
