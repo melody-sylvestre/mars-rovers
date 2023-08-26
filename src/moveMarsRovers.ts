@@ -1,15 +1,15 @@
 import { Request, Response } from "express";
-import { roversOutput } from "./interfaces";
+import { finalRoverStatus, roversOutput } from "./interfaces";
 import {
   validateInputFormat,
   validateRoverInstructions,
   validateRoverPosition,
   validateUpperRightCoordinates,
 } from "./inputValidators";
-import { move, rotate } from './roversMotions'
+import { executeRoverInstructions } from './roversMotions'
 
 const moveMarsRovers = (request: Request, response: Response) => {
-  let input: any = request.body;
+  const input: any = request.body;
   let output: roversOutput = {
     message: "",
     finalRover1Position: "",
@@ -45,94 +45,23 @@ const moveMarsRovers = (request: Request, response: Response) => {
       statusCode = 400
 
     } else {
-      // initialise position of rovers (trim positions)
-      let rover1Position: string = input.rover1Position.trim()
-      let rover2Position: string = input.rover2Position.trim() 
-      let newPosition: string = ""
+      const rover1Position: string = input.rover1Position.trim()
+      const rover2Position: string = input.rover2Position.trim()
+      const rover1Instructions: string = input.rover1Instructions.trim()
+      const rover2Instructions: string = input.rover2Instructions.trim()
 
-      // initialise instruction chains (trim) and split into arrays 
-      let rover1Instructions: Array<string> = input.rover1Instructions.trim().split(' ')
-      let rover2Instructions: Array<string> = input.rover2Instructions.trim().split(' ')
+      const rover1FinalStatus: finalRoverStatus = executeRoverInstructions(rover1Position, rover1Instructions, maxPositionX, maxPositionY)
 
-      //TODO: consider creating a function for this?  
+      const rover2FinalStatus: finalRoverStatus = executeRoverInstructions(rover2Position, rover2Instructions, maxPositionX, maxPositionY)
 
-      // loop on instructions rover1:
-      for (let i = 0; i < rover1Instructions.length; i++ ){
-      // switch on letter 
-      //  if M -> call newPosition = function moveRover(roverPosition: string):string
-      //        -> if(validateRoverPosition(newPosition))
-      //            -> if OK roverposition = newPosition  
-      //             -> else: statusCode=400, outputmessage: Rover1 reached the limit of the plateau break loop and position should stay the same
-        switch(rover1Instructions[i]){
-          case 'M': 
-            newPosition = move(rover1Position)
-            if( validateRoverPosition(newPosition, maxPositionX, maxPositionY) ){
-              rover1Position = newPosition
-            } else {
-              statusCode = 400
-              output.message = "Rover 1 reached the limit of the plateau. Stopping the execution of rover 1 instructions."
-              break
-            }
-            break
-           //  if L -> call function position = rotate(roverPosition: string, direction): string with option L
-          //  if R -> call function rotate with option R (same as above)
-          case 'L': 
-            rover1Position = rotate(rover1Position, 'L')
-            break
-          
-          case 'R':
-            rover1Position = rotate(rover1Position, 'R')
-            break
-        }
-      }
-    
-      // checking that rover1 instructions were complete
-      //   if status code !=400 -> statusCode = 200, message = Rover1 instructions complete
-      if( statusCode !==400 ) {
-        output.message = 'Rover 1 instructions complete.'
-      }
-      output.finalRover1Position = rover1Position
-     
-      // loop on instructions rover2:
-      for (let i = 0; i < rover2Instructions.length; i++ ){
-        // switch on letter 
-        //  if M -> call newPosition = function moveRover(roverPosition: string):string
-        //        -> if(validateRoverPosition(newPosition))
-        //            -> if OK roverposition = newPosition  
-        //             -> else: statusCode=400, outputmessage: Rover1 reached the limit of the plateau break loop and position should stay the same
-          switch(rover2Instructions[i]){
-            case 'M': 
-              newPosition = move(rover2Position)
-              if( validateRoverPosition(newPosition, maxPositionX, maxPositionY) ){
-                rover2Position = newPosition
-              } else {
-                statusCode = 400
-                output.message = output.message.concat(' ', 'Rover 2 reached the limit of the plateau. Stopping the execution of rover 2 instructions.')
-                break
-              }
-              break
-             //  if L -> call function position = rotate(roverPosition: string, direction): string with option L
-            //  if R -> call function rotate with option R (same as above)
-            case 'L': 
-              rover2Position = rotate(rover2Position, 'L')
-              break
-            case 'R':
-              rover2Position = rotate(rover2Position, 'R')
-              break
-          }
-        }
-      
-        // checking that rover2 instructions were complete
-        //   if status code !=400 -> statusCode = 200, message = Rover2 instructions complete
-        if( statusCode !==400 ) {
-          output.message = output.message.concat(' ', 'Rover 2 instructions complete.')
-        }
-        output.finalRover2Position = rover2Position
-      
+      output.message = `Rover1: ${rover1FinalStatus.message} Rover2: ${rover2FinalStatus.message}`
+      output.finalRover1Position = rover1FinalStatus.roverPosition
+      output.finalRover2Position = rover2FinalStatus.roverPosition
+
+      statusCode = (rover1FinalStatus.instructionsComplete && rover2FinalStatus.instructionsComplete) ? 200 : 400
     }
   }
   response.status(statusCode).json(output)
-
-};
+}
 
 export { moveMarsRovers };
