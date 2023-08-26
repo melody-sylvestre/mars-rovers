@@ -1,83 +1,27 @@
-import { validateInputFormat, 
+import { validateNumberOfCommandLines, 
         validateUpperRightCoordinates, 
         validateRoverPosition, 
         validateRoverInstructions } from '../src/inputValidators'
 
-describe("Checking that input format can be correctly validated (validateInputFormat)", ()=>{
-    test("Input has the correct format", () => {
-        const input = {
-            upperRightCoordinates: "5 5",
-            rover1Position: "1 2 N",
-            rover1Instructions: "LMLMLMLMM",
-            rover2Position: "3 3 E",
-            rover2Instructions: "MMRMMRMRRM"
-        }  
-        expect(validateInputFormat(input)).toBe(true)
+describe("Checking that an incorrect number of lines in the input can be detected (validateNumberOfCommandLines)", () => {
+    test("Sucess: Valid number of lines in input (3)", () => {
+        const input: string = "5 5\n1 2 N\nLMM"
+        expect(validateNumberOfCommandLines(input)).toBe(true)
     })
 
-    test("Input has the wrong number of lines", () => {
-        const input = {
-            upperRightCoordinates: "5 5",
-            rover1Position: "1 2 N",
-            rover1Instructions: "LMLMLMLMM",
-            rover2Position: "3 3 E",
-            rover2Instructions: "MMRMMRMRRM", 
-            isMarsCool: "yes",
-        }  
-        expect(validateInputFormat(input)).toBe(false)
+    test("Success: Valid number of lines in input (7)", () => {
+        const input: string = "5 5\n1 2 N\nLMM\n1 4 N\nLMM\n1 1 N\nLMM"
+        expect(validateNumberOfCommandLines(input)).toBe(true)
     })
 
-    test("upperRightCoordinates key is missing", () => {
-        const input = {
-            wrongKey: "5 5",
-            rover1Position: "1 2 N",
-            rover1Instructions: "LMLMLMLMM",
-            rover2Position: "3 3 E",
-            rover2Instructions: "MMRMMRMRRM", 
-        }  
-        expect(validateInputFormat(input)).toBe(false)
+    test("Failure: Invalid number of lines in input (1)", () => {
+        const input: string = "5 5"
+        expect(validateNumberOfCommandLines(input)).toBe(false)
     })
 
-    test("rover1Position key is missing", () => {
-        const input = {
-            upperRightCoordinates: "5 5",
-            wrongKey: "1 2 N",
-            rover1Instructions: "LMLMLMLMM",
-            rover2Position: "3 3 E",
-            rover2Instructions: "MMRMMRMRRM"
-        }  
-        expect(validateInputFormat(input)).toBe(false)
-    })
-    test("rover1Instructions key is missing", () => {
-        const input = {
-            upperRightCoordinates: "5 5",
-            rover1Position: "1 2 N",
-            wrongKey: "LMLMLMLMM",
-            rover2Position: "3 3 E",
-            rover2Instructions: "MMRMMRMRRM"
-        }  
-        expect(validateInputFormat(input)).toBe(false)
-    })
-    test("rover2Position key is missing", () => {
-        const input = {
-            upperRightCoordinates: "5 5",
-            rover1Position: "1 2 N",
-            rover1Instructions: "LMLMLMLMM",
-            wrongKey: "3 3 E",
-            rover2Instructions: "MMRMMRMRRM"
-        }  
-        expect(validateInputFormat(input)).toBe(false)
-    })
-
-    test("rover2Instructions key is missing", () => {
-        const input = {
-            upperRightCoordinates: "5 5",
-            rover1Position: "1 2 N",
-            rover1Instructions: "LMLMLMLMM",
-            rover2Position: "3 3 E",
-            wrongKey: "MMRMMRMRRM"
-        }  
-        expect(validateInputFormat(input)).toBe(false)
+    test("Failure: Empty input", () => {
+        const input: string = "   \n   \n \n  "
+        expect(validateNumberOfCommandLines(input)).toBe(false)
     })
 })
 

@@ -1,24 +1,7 @@
-const validateInputFormat = (input: any): boolean => {
-  // Check that input has the right number of lines and right keys
-
-  if (Object.keys(input).length !== 5) {
-    return false
-  } else {
-    const requiredFields = [
-      "upperRightCoordinates",
-      "rover1Position",
-      "rover1Instructions",
-      "rover2Position",
-      "rover2Instructions",
-    ]
-
-    for (let i = 0; i < requiredFields.length; i++) {
-      if (!input.hasOwnProperty(requiredFields[i])) {
-        return false
-      }
-    }
-  }
-  return true;
+const validateNumberOfCommandLines = (input: string): boolean => {
+  // Check that input has an odd numbers of lines and at least 3 lines. 
+  const commandsArray: Array<string> = input.split("\n")
+  return (commandsArray.length >= 3) && (commandsArray.length % 2 === 1)
 }
 
 const validateUpperRightCoordinates = (upperRightCoordinates: string): boolean => {
@@ -69,4 +52,4 @@ const validateRoverInstructions = (roverInstructions: string): boolean => {
   }
 }
 
-export { validateInputFormat, validateUpperRightCoordinates, validateRoverPosition, validateRoverInstructions }
+export { validateNumberOfCommandLines, validateUpperRightCoordinates, validateRoverPosition, validateRoverInstructions }
