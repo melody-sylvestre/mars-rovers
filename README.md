@@ -51,11 +51,27 @@ LLMRM     // instruction for the 3rd rover
 Here are some possible responses for the API. The response format is JSON
 
 * All the instructions were executed successfully
-   ```
-  Status: 200 OK
-  
+  **Input**
   ```
-* Some instructions could not be executed because some rovers would have collided. The rover that would have collided stays at its initial position. 
+  5 5
+  1 2 N
+  LMLMLMLMM
+  3 3 E
+  MMRMMRMRRM
+  ```
+  **Output**
+  ```
+  Status: 200 OK
+  {
+    "message": "Rover #1: Instructions complete. Rover #2: Instructions complete. ",
+    "finalRoverPositions": [
+        "1 3 N",
+        "5 1 E"
+    ]
+   }
+  ```
+  
+* Some instructions could not be executed because some rovers would have collided. The rover that would have collided stays at its initial position. The other rovers move normally. 
   **Input**
   ```
   10 20
@@ -65,8 +81,8 @@ Here are some possible responses for the API. The response format is JSON
   RMMMMM
   0 0 N
   MMMMRL
-  **Output**
   ```
+  **Output**
   ```
   Status: 400 Bad Request
   {
@@ -77,4 +93,26 @@ Here are some possible responses for the API. The response format is JSON
         "0 4 N"
     ]
   }   
-  ```  
+  ```
+  * Some instructions could not be executed because some rovers would have gone over the edge of the plateau. The rover that would have fallen off a cliff stays at its initial position. The other rovers move normally.
+  **Input**
+  ```
+  5 5
+  1 2 N
+  MMMMMMM
+  0 0 E
+  MMMLM
+  ```
+  **Output**
+  ```
+  Status: 400 Bad Request
+  {
+    "message": "Rover #1: Reached the limit of the plateau. Stopping the execution of the instructions. Rover #2: Instructions complete. ",
+    "finalRoverPositions": [
+        "1 2 N",
+        "3 1 N"
+    ]
+}   
+  ```
+
+  
