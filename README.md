@@ -34,7 +34,7 @@ By default this API runs on http://localhost:3000/.
 To use it, send this **POST** request:
 ```POST http://localhost:3000/
 ```
-where the body is in text/plain format in the following format 
+where the body contains the input for the rovers and is in text/plain format in the following format 
 
 ```
 5 5       // upper right coordinates of the plateau
@@ -69,6 +69,23 @@ Here are some possible responses for the API. The response format is JSON
         "5 1 E"
     ]
    }
+  ```
+* No instructions could be executed because the format of the input is incorrect. 
+  **Input**
+  ```
+  5 -4.5
+  1 2 N          
+  MMMMMMM          
+  0 0 E
+  MMMLM        
+  ```
+  **Output**
+  ```
+  Status: 400 Bad Request
+  {
+    "message": "Incorrect input format: upper right coordinates must be 2 strictly positive integers (e.g. '5 4')",
+    "finalRoverPositions": []
+  } 
   ```
   
 * Some instructions could not be executed because some rovers would have collided. The rover that would have collided stays at its initial position. The other rovers move normally. 
