@@ -2,9 +2,11 @@ import { RoverStatus } from "./interfaces"
 import { validateRoverPosition, validateRoverPositionsAgainstCollisions } from "./inputValidators"
 
 const move = (roverPosition: string): string => {
-    // Move the rover by 1 unit along following its orientation
-    //Returns the new position of the Rover
-
+    /**
+     * Move the rover by 1 unit along following its orientation
+     * Returns the new position of the Rover
+     * @param {string} roverPosition - string representing the position of a rover
+     */
     const roverPositionArray: Array<string> = roverPosition.split(' ')
     let X: number = Number(roverPositionArray[0])
     let Y: number = Number(roverPositionArray[1])
@@ -28,9 +30,12 @@ const move = (roverPosition: string): string => {
 }
 
 const rotate = (roverPosition: string, direction: string): string => {
-    //Change the orientation of the rover following the specified direction
-    //Returns the new position of the Rover
-
+    /**
+     * Change the orientation of the rover following the specified direction
+     * Returns the new position of the Rover 
+     * @param {string} roverPosition - string representing the position of a rover
+     * @param {string} direction - direction the rover is rotating toward 'L' or 'R'
+    */
     const roverPositionArray: Array<string> = roverPosition.split(' ')
     const X: string = roverPositionArray[0]
     const Y: string = roverPositionArray[1]
@@ -48,11 +53,17 @@ const rotate = (roverPosition: string, direction: string): string => {
 }
 
 const executeRoverInstructions = (indexRover: number, initialRoverPositions: Array<string>, roverInstructions: string, maxPositionX: number, maxPositionY: number): RoverStatus => {
-    // Execute the instructions for a rover starting from its initial position
-    // Takes into account the positions of all the rovers and the edges of the plateau. 
-    // Return the updated rovers positions array, a message and a boolean to indicate whether the instructions were executed successfully
-    // If instructions were not successful (because the rover would meet an edge of the plateau or another rover), the rovers position array remains unchanged. 
-
+    /**
+     * Execute the instructions for a rover starting from its initial position.
+     * Takes into account the positions of all the rovers and the edges of the plateau. 
+     * Return an object containing updated rovers positions array, a message and a boolean to indicate whether the instructions were executed successfully.
+     * If instructions were not successful (because the rover would meet an edge of the plateau or another rover), the rovers position array remains unchanged. 
+     * @param {number} indexRover - index of the rover to move
+     * @param {Array<string>} initialRoverPositions - array containing all the rover positions before we attempt to move rover #indexRover 
+     * @param {string} roverInstructions - string of instructions for rover #indexRover
+     * @param {number} maxPositionX - maximum coordinate along X-axis
+     * @param {number} maxPositionY - maximum coordinate along Y-axis 
+    */
     const roverInstructionsArray: Array<string> = roverInstructions.split("")
     let finalRoverStatus: RoverStatus = {
         roverPositions: [],

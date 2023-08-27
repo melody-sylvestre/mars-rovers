@@ -1,10 +1,13 @@
 import { roversCommands } from "./interfaces"
 
 const commandsParser = (input: string): roversCommands => {
-    // Break input string into an object containing the upper right coordinates, an Array of the rovers' initial positions
-    // and an array of rovers instructions  
-    // Spurious whitespaces are removed
-
+    /**
+     * Break input string and return an object containing the upper right coordinates, an Array of the rovers' initial positions
+    and an array of rovers instructions  
+    Spurious whitespaces are removed
+    * @param {string} input - user's commands as a block of text
+    */ 
+    
     const inputArray: Array<string> = input.split('\n')
     const commands: roversCommands = {
         upperRightCoordinates: inputArray[0].trim().replaceAll(/\s{2,}/g, ' '), 
