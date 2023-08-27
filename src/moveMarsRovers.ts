@@ -1,14 +1,14 @@
 import { Request, Response } from "express"
+import { commandsParser } from "./commandsParser"
 import { RoverStatus, roversCommands, roversOutput } from "./interfaces"
+import { executeRoverInstructions } from './roversMotions'
 import {
   validateNumberOfCommandLines,
   validateRoverInstructions,
   validateRoverPosition,
   validateRoverPositionsAgainstCollisions,
   validateUpperRightCoordinates,
-} from "./inputValidators";
-import { commandsParser } from "./commandsParser"
-import { executeRoverInstructions } from './roversMotions'
+} from "./inputValidators"
 
 const moveMarsRovers = (request: Request, response: Response) => {
   const input: string = request.body.trimStart()
@@ -22,6 +22,7 @@ const moveMarsRovers = (request: Request, response: Response) => {
     output.message =
       "Incorrect input format: commands must have at least 2 lines and an odd number of lines"
     statusCode = 400
+
   } else {
     const inputCommands: roversCommands = commandsParser(input)
     if (!validateUpperRightCoordinates(inputCommands.upperRightCoordinates)) {
@@ -34,7 +35,7 @@ const moveMarsRovers = (request: Request, response: Response) => {
       const numberOfRovers: number = inputCommands.roverPositions.length
       let foundInvalidPosition: boolean = false
       let foundInvalidInstructions: boolean = false
-      let inputIsValid: boolean = true
+      let inputFormatIsValid: boolean = true
       let currentRoverStatus: RoverStatus = {
         roverPositions: [""],
         message: "",
@@ -53,27 +54,28 @@ const moveMarsRovers = (request: Request, response: Response) => {
       }
 
       if (foundInvalidPosition) {
-        inputIsValid = false
+        inputFormatIsValid = false
         statusCode = 400
         output.message = `${output.message}Rover positions must have the format X Y [NSWE] (e.g '1 3 N') with 0 <= X <= ${maxPositionX} and  0 <= Y <= ${maxPositionY}. Both number must be integers. `
       }
 
       if (foundInvalidInstructions) {
-        inputIsValid = false
+        inputFormatIsValid = false
         statusCode = 400
         output.message = `${output.message}Rover instructions must be an empty string or contains only L, M or R. `
       }
 
       if (!validateRoverPositionsAgainstCollisions(inputCommands.roverPositions)) {
-        inputIsValid = false
+        inputFormatIsValid = false
         statusCode = 400
         output.message = `${output.message}Some rovers are at the same position!`
       }
 
-      if (inputIsValid) {
+      if (inputFormatIsValid) {
         output.finalRoverPositions = [...inputCommands.roverPositions]
+
         for (let indexRover = 0; indexRover < numberOfRovers; indexRover++) {
-          currentRoverStatus = executeRoverInstructions(indexRover, output.finalRoverPositions, inputCommands.roverInstructions[indexRover], maxPositionX, maxPositionY)          
+          currentRoverStatus = executeRoverInstructions(indexRover, output.finalRoverPositions, inputCommands.roverInstructions[indexRover], maxPositionX, maxPositionY)
           output.message = `${output.message}Rover #${indexRover + 1}: ${currentRoverStatus.message}`
           output.finalRoverPositions = [...currentRoverStatus.roverPositions]
           if (!currentRoverStatus.instructionsComplete) {

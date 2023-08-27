@@ -1,7 +1,7 @@
 import { roversCommands } from "./interfaces"
 
 const commandsParser = (input: string): roversCommands => {
-    // Break input string into an object containing the upper right coordinates, an Array of the rovers'initial positions
+    // Break input string into an object containing the upper right coordinates, an Array of the rovers' initial positions
     // and an array of rovers instructions  
     // Spurious whitespaces are removed
 

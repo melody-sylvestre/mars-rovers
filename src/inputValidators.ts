@@ -12,8 +12,7 @@ const validateUpperRightCoordinates = (upperRightCoordinates: string): boolean =
 
   if (goodFormat.test(upperRightCoordinates)) {
     let coordinatesArray: Array<string> = upperRightCoordinates.split(' ')
-    upperRightCoordinatesAreValid = (Number(coordinatesArray[0]) === 0 || Number(coordinatesArray[1]) === 0) ? false : true
-
+    upperRightCoordinatesAreValid = (Number(coordinatesArray[0]) > 0 && Number(coordinatesArray[1]) > 0)
   } else {
     upperRightCoordinatesAreValid = false
   }
@@ -21,8 +20,8 @@ const validateUpperRightCoordinates = (upperRightCoordinates: string): boolean =
 }
 
 const validateRoverPosition = (roverPosition: string, maxPositionX: number, maxPositionY: number): boolean => {
-  // Check that rover position has format integer integer orientation and that rover is on the plateau
-  // Numbers should be consistent with upperRightCoordinates and not negative
+  // Check that rover position has format "integer integer orientation" and that rover is on the plateau
+  // Numbers should be consistent with the upper right coordinates and positive
   // Orientation should be N, S, W, or E
 
   let roverPositionIsValid = true
@@ -31,7 +30,7 @@ const validateRoverPosition = (roverPosition: string, maxPositionX: number, maxP
   if (goodFormat.test(roverPosition)) {
     const X = Number(roverPosition.split(' ')[0])
     const Y = Number(roverPosition.split(' ')[1])
-    roverPositionIsValid = (X < 0 || Y < 0 || X > maxPositionX || Y > maxPositionY) ? false : true
+    roverPositionIsValid = (X >= 0 && Y >= 0 && X <= maxPositionX && Y <= maxPositionY) 
   } else {
     roverPositionIsValid = false
   }
@@ -39,19 +38,19 @@ const validateRoverPosition = (roverPosition: string, maxPositionX: number, maxP
 }
 
 const validateRoverInstructions = (roverInstructions: string): boolean => {
-  // Check that roverInstuctions is either an empty string (maybe we want to move only 1 rover at a time?)
+  // Check that roverInstuctions is either an empty string (maybe we don't want to move that rover?)
   // or that it does not countain any other character apart from L, M, and R
 
   if (roverInstructions === '') {
     return true
   } else {
     const illegalStringFormat = /[^LMR]/
-    return illegalStringFormat.test(roverInstructions) ? false : true
+    return !illegalStringFormat.test(roverInstructions)
   }
 }
 
 const validateRoverPositionsAgainstCollisions = (roverPositions: Array<string>): boolean => {
-  // Check if there are collisions by checking if any rover position (excuding the orientation) appears several times
+  // Check if there are collisions by checking if any rover position (excluding the orientation) appears several times
   // Returns false if there is any collision, true otherwise
 
   let foundDuplicatedPositions: boolean = false
@@ -65,8 +64,6 @@ const validateRoverPositionsAgainstCollisions = (roverPositions: Array<string>):
   })
   return !foundDuplicatedPositions
 }
-
-
 
 export {
   validateNumberOfCommandLines,

@@ -5,19 +5,19 @@ import { validateNumberOfCommandLines,
         validateRoverInstructions } from '../src/inputValidators'
 
 describe("Checking that an incorrect number of lines in the input can be detected (validateNumberOfCommandLines)", () => {
-    test("Sucess: Valid number of lines in input (3)", () => {
+    test("Valid number of lines in input (3)", () => {
         const input: string = "5 5\n1 2 N\nLMM"
         expect(validateNumberOfCommandLines(input)).toBe(true)
     })
-    test("Success: Valid number of lines in input (7)", () => {
+    test("Valid number of lines in input (7)", () => {
         const input: string = "5 5\n1 2 N\nLMM\n1 4 N\nLMM\n1 1 N\nLMM"
         expect(validateNumberOfCommandLines(input)).toBe(true)
     })
-    test("Failure: Invalid number of lines in input (1)", () => {
+    test("Invalid number of lines in input (1)", () => {
         const input: string = "5 5"
         expect(validateNumberOfCommandLines(input)).toBe(false)
     })
-    test("Failure: Empty input", () => {
+    test("Empty input", () => {
         const input: string = "   \n   \n \n  "
         expect(validateNumberOfCommandLines(input)).toBe(false)
     })
@@ -71,7 +71,7 @@ describe("Checking that rover position string can be validated (validateRoverPos
         expect(validateRoverPosition("0 0 N", 10, 20)).toBe(true)
     })
     test("Correct rover position - example 2", () => {
-        expect(validateRoverPosition("20 20 W", 25, 20)).toBe(true)
+        expect(validateRoverPosition("203 205 W", 500, 500)).toBe(true)
     })
     test("Incorrect rover position - empty string", () => {
         expect(validateRoverPosition("", 25, 2)).toBe(false)
@@ -80,7 +80,7 @@ describe("Checking that rover position string can be validated (validateRoverPos
         expect(validateRoverPosition("55N", 5, 5)).toBe(false)
     })
     test("Incorrect rover position - invalid orientation", () => {
-        expect(validateRoverPosition("5 5 SW", 5, 5)).toBe(false)
+        expect(validateRoverPosition("5 5 X", 5, 5)).toBe(false)
     })
     test("Incorrect rover position - negative X", () => {
         expect(validateRoverPosition("-1 3 N", 25, 2)).toBe(false)
@@ -102,7 +102,7 @@ describe("Checking that rover position string can be validated (validateRoverPos
     })
 })
 
-describe("Checking that potential collisions can be detected i.e. 2 rovers are in the same positions", ()=>{
+describe("Checking that potential collisions can be detected i.e. 2 rovers are in the same position (validateRoverPositionsAgainstCollisions)", ()=>{
     test("No collision: two rovers at different locations", () =>{
         const roverPositions = ['1 1 N', '1 2 N']
         expect(validateRoverPositionsAgainstCollisions(roverPositions)).toBe(true)
@@ -128,7 +128,7 @@ describe("Checking that rover instruction string can be validated (validateRover
         expect(validateRoverInstructions("LMLLLX")).toBe(false)
     })    
     test("Incorrect instructions - whitespace in the middle", () => {
-        expect(validateRoverInstructions("LML    LMR")).toBe(false)
+        expect(validateRoverInstructions("LML LMR")).toBe(false)
     })
 })
 

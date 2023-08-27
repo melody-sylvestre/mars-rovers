@@ -67,7 +67,7 @@ const executeRoverInstructions = (indexRover: number, initialRoverPositions: Arr
             case 'M':
                 newRoverPositions[indexRover] = move(virtualRoverPositions[indexRover])
                 if( validateRoverPosition(newRoverPositions[indexRover], maxPositionX, maxPositionY) ) {
-                    if( validateRoverPositionsAgainstCollisions(newRoverPositions)){
+                    if( validateRoverPositionsAgainstCollisions(newRoverPositions) ){
                         virtualRoverPositions = [...newRoverPositions]
                     } else {
                         finalRoverStatus.instructionsComplete = false
@@ -96,6 +96,5 @@ const executeRoverInstructions = (indexRover: number, initialRoverPositions: Arr
     }
     return finalRoverStatus
 }
-
 
 export { move, rotate, executeRoverInstructions }      
