@@ -1,2 +1,2 @@
 # mars-rovers
-An API to move 2 rovers on Mars
+An API to move a squad of rovers on Mars
