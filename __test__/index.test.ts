@@ -50,6 +50,5 @@ describe('Check the output from the API against pre-defined case from challenge 
             .set({'Content-Type': 'text/plain'}).send(testInput)
         expect(APIresponse.statusCode).toEqual(400)
         expect(APIresponse.body).toEqual(expectedResult)
-    })
-    
+    })  
 })
