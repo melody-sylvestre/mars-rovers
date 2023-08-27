@@ -120,8 +120,10 @@ Here are some possible responses for the API. The response format is JSON
     ]
   }   
   ```
-  * Some instructions could not be executed because some rovers would have gone over the edge of the plateau. The rover that would have fallen off a cliff stays at its initial position. The other rovers move normally.
-  **Input**
+  * **Some instructions could not be executed because some rovers would have gone over the edge of the plateau.**
+    The rover that would have fallen off a cliff stays at its initial position. The other rovers move normally.
+  
+  Input
   ```
   5 5
   1 2 N
@@ -129,7 +131,8 @@ Here are some possible responses for the API. The response format is JSON
   0 0 E
   MMMLM
   ```
-  **Output**
+
+  Output
   ```
   Status: 400 Bad Request
   {
@@ -138,7 +141,7 @@ Here are some possible responses for the API. The response format is JSON
         "1 2 N",
         "3 1 N"
     ]
-}   
+  }   
   ```
 
   
