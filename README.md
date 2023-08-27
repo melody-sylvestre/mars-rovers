@@ -52,8 +52,8 @@ LLMRM     // instruction for the 3rd rover
 
 Here are some possible responses for the API. The response format is JSON
 
-* All the instructions were executed successfully
-  **Input**
+* **All the instructions were executed successfully**
+  Input
   ```
   5 5
   1 2 N
@@ -61,7 +61,8 @@ Here are some possible responses for the API. The response format is JSON
   3 3 E
   MMRMMRMRRM
   ```
-  **Output**
+  
+  Output
   ```
   Status: 200 OK
   {
