@@ -1,5 +1,5 @@
 # mars-rovers
-An API to move a squad of rovers on Mars
+This is an API to move a squad of Mars rovers on a rectangular plateau. User input defines the dimensions of the plateau, the starting positions of each rover and the instructions for each of them. You can control as many rovers as you want!
 
 All the terminal commands below assume that your working directory is mars-rovers. 
 ## Installation 
@@ -8,12 +8,6 @@ Clone the repository and in the terminal type
 ```
 npm install
 ```
-## Run application
-In the terminal run
-```
-nodemon src/index.ts
-```
-
 ## Run tests
 
 ### Run only the tests on the API output
@@ -28,4 +22,59 @@ In the terminal run
 npm run test
 ```
 
+## Run application
+In the terminal run
+```
+nodemon src/index.ts
+```
+
 ## Using the API
+By default this API runs on http://localhost:3000/. 
+
+To use it, send this **POST** request:
+```POST http://localhost:3000/
+```
+where the body is in text/plain format in the following format 
+
+```
+5 5       // upper right coordinates of the plateau
+1 2 N     // position of the 1st rover - format is X Y [NSWE] where N, S, W and E stand for the 4 points of the compass
+RMML      // instruction string for the 1st rover - L to rotate left, M to move forward by 1 unit, R to rotate right
+3 3 W     // position of a 2nd rover
+          // instructiond for the 2nd rover - they can be empty if you do not wish to move this rover
+2 4 S     // position of a 3rd rover
+LLMRM     // instruction for the 3rd rover
+....      // you can add as many rovers as you want - but your input must have an odd number of lines and at least 3 lines (that's for one rover only) 
+ 
+```
+
+Here are some possible responses for the API. The response format is JSON
+
+* All the instructions were executed successfully
+   ```
+  Status: 200 OK
+  
+  ```
+* Some instructions could not be executed because some rovers would have collided. The rover that would have collided stays at its initial position. 
+  **Input**
+  ```
+  10 20
+  5 4 W   
+  LLL
+  5 9 E
+  RMMMMM
+  0 0 N
+  MMMMRL
+  **Output**
+  ```
+  ```
+  Status: 400 Bad Request
+  {
+    "message": "Rover #1: Instructions complete. Rover #2: Another rover is in the way. Stopping the execution of the instructions. Rover #3: Instructions complete. ",
+    "finalRoverPositions": [
+        "5 4 N",
+        "5 9 E",
+        "0 4 N"
+    ]
+  }   
+  ```  
