@@ -32,7 +32,8 @@ nodemon src/index.ts
 By default this API runs on http://localhost:3000/. 
 
 To use it, send this **POST** request:
-```POST http://localhost:3000/
+```
+POST http://localhost:3000/
 ```
 where the body contains the input for the rovers and is in text/plain format in the following format 
 
