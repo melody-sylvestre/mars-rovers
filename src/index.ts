@@ -1,9 +1,6 @@
-import { moveMarsRovers } from "./moveMarsRovers"
-const express = require('express')
+import app from "./app"
 
-const app = express()
-const port = 3000
-
-app.use(express.json())
-app.post('/moveMarsRovers', moveMarsRovers)
-app.listen(port)
+const PORT = process.env.PORT || 3000
+app.listen(PORT, () =>{
+    console.log(`Server running here: https://localhost:${PORT}`)
+})

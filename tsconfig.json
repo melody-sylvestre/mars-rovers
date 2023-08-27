@@ -4,6 +4,7 @@
     ], 
 	"compilerOptions": {
 		"noImplicitAny": true, 
-        "esModuleInterop": true, 
+        "esModuleInterop": true,
+		"lib":["ES2021"]
 	}
 }
