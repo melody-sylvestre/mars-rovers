@@ -1,4 +1,4 @@
-import { finalRoverStatus } from "./interfaces"
+import { RoverStatus } from "./interfaces"
 import { validateRoverPosition, validateRoverPositionsAgainstCollisions } from "./inputValidators"
 
 const move = (roverPosition: string): string => {
@@ -47,48 +47,54 @@ const rotate = (roverPosition: string, direction: string): string => {
     return `${X} ${Y} ${newOrientation}`
 }
 
-const executeRoverInstructions = (indexRover: number, roverPositions: Array<string>, roverInstructions: string, maxPositionX: number, maxPositionY: number): finalRoverStatus => {
+const executeRoverInstructions = (indexRover: number, initialRoverPositions: Array<string>, roverInstructions: string, maxPositionX: number, maxPositionY: number): RoverStatus => {
     // Execute the instructions for a rover starting from its initial position
-    // Return the rover final position, a message and a boolean to indicate whether the instructions were executed successfully
+    // Takes into account the positions of all the rovers and the edges of the plateau. 
+    // Return the updated rovers positions array, a message and a boolean to indicate whether the instructions were executed successfully
+    // If instructions were not successful (because the rover would meet an edge of the plateau or another rover), the rovers position array remains unchanged. 
 
     const roverInstructionsArray: Array<string> = roverInstructions.split("")
-    let roverStatus: finalRoverStatus = {
-        roverPositions: roverPositions,
+    let finalRoverStatus: RoverStatus = {
+        roverPositions: [],
         message: "",
         instructionsComplete: true
-    }
-    let newRoverPositions: Array<string> = [...roverStatus.roverPositions]
+    } 
+    let virtualRoverPositions: Array<string> = [...initialRoverPositions]
+    let newRoverPositions: Array<string> = [...initialRoverPositions]
 
     for (let i = 0; i < roverInstructionsArray.length; i++) {
         switch (roverInstructionsArray[i]) {
             case 'M':
-                newRoverPositions[indexRover] = move(roverStatus.roverPositions[indexRover])
+                newRoverPositions[indexRover] = move(virtualRoverPositions[indexRover])
                 if( validateRoverPosition(newRoverPositions[indexRover], maxPositionX, maxPositionY) ) {
                     if( validateRoverPositionsAgainstCollisions(newRoverPositions)){
-                        roverStatus.roverPositions = [...newRoverPositions]
+                        virtualRoverPositions = [...newRoverPositions]
                     } else {
-                        roverStatus.instructionsComplete = false
-                        roverStatus.message = "Another rover is in the way. Stopping the execution of the instructions. "
+                        finalRoverStatus.instructionsComplete = false
+                        finalRoverStatus.message = "Another rover is in the way. Stopping the execution of the instructions. "
                         break
                     }                 
                 } else {
-                    roverStatus.instructionsComplete = false
-                    roverStatus.message = "Reached the limit of the plateau. Stopping the execution of the instructions. "
+                    finalRoverStatus.instructionsComplete = false
+                    finalRoverStatus.message = "Reached the limit of the plateau. Stopping the execution of the instructions. "
                     break
                 }
                 break
             case 'L':
-                roverStatus.roverPositions[indexRover] = rotate(roverStatus.roverPositions[indexRover], 'L')
+                virtualRoverPositions[indexRover] = rotate(virtualRoverPositions[indexRover], 'L')
                 break
             case 'R':
-                roverStatus.roverPositions[indexRover] = rotate(roverStatus.roverPositions[indexRover], 'R')
+               virtualRoverPositions[indexRover] = rotate(virtualRoverPositions[indexRover], 'R')
                 break
         }
     }
-    if (roverStatus.instructionsComplete) {
-        roverStatus.message = 'Instructions complete. '
+    if (finalRoverStatus.instructionsComplete) {
+        finalRoverStatus.message = 'Instructions complete. '
+        finalRoverStatus.roverPositions = [...virtualRoverPositions]
+    } else {
+        finalRoverStatus.roverPositions = [...initialRoverPositions]
     }
-    return roverStatus
+    return finalRoverStatus
 }
 
 

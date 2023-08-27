@@ -1,4 +1,4 @@
-export interface finalRoverStatus {
+export interface RoverStatus {
     roverPositions: Array<string> 
     message: string
     instructionsComplete: boolean
