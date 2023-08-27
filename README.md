@@ -95,6 +95,7 @@ Here are some possible responses for the API. The response format is JSON
   ```
   
 * **Some instructions could not be executed because some rovers would have collided.**
+
   The rover that would have collided stays at its initial position. The other rovers move normally. 
 
   Input
@@ -121,6 +122,7 @@ Here are some possible responses for the API. The response format is JSON
   }   
   ```
   * **Some instructions could not be executed because some rovers would have gone over the edge of the plateau.**
+
     The rover that would have fallen off a cliff stays at its initial position. The other rovers move normally.
   
   Input
