@@ -4,7 +4,7 @@ This is an API to move a squad of Mars rovers on a rectangular plateau. User inp
 All the terminal commands below assume that your working directory is mars-rovers. 
 ## Installation 
 
-Clone the repository and in the terminal type 
+Clone the repository and type in the terminal 
 ```
 npm install
 ```
