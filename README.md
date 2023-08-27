@@ -74,8 +74,9 @@ Here are some possible responses for the API. The response format is JSON
     ]
    }
   ```
-* No instructions could be executed because the format of the input is incorrect. 
-  **Input**
+* **No instructions could be executed because the format of the input is incorrect.**
+   
+  Input
   ```
   5 -4.5
   1 2 N          
@@ -83,7 +84,8 @@ Here are some possible responses for the API. The response format is JSON
   0 0 E
   MMMLM        
   ```
-  **Output**
+
+  Output
   ```
   Status: 400 Bad Request
   {
@@ -92,8 +94,10 @@ Here are some possible responses for the API. The response format is JSON
   } 
   ```
   
-* Some instructions could not be executed because some rovers would have collided. The rover that would have collided stays at its initial position. The other rovers move normally. 
-  **Input**
+* **Some instructions could not be executed because some rovers would have collided.**
+  The rover that would have collided stays at its initial position. The other rovers move normally. 
+
+  Input
   ```
   10 20
   5 4 W   
@@ -103,7 +107,8 @@ Here are some possible responses for the API. The response format is JSON
   0 0 N
   MMMMRL
   ```
-  **Output**
+
+  Output
   ```
   Status: 400 Bad Request
   {
