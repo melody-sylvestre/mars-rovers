@@ -96,7 +96,7 @@ Here are some possible responses for the API. The response format is JSON
   
 * **Some instructions could not be executed because some rovers would have collided.**
 
-  The rover that would have collided stays at its initial position. The other rovers move normally. 
+  The rovers that would collide stay at their initial positions. The other rovers move normally. 
 
   Input
   ```
