@@ -43,10 +43,10 @@ where the body contains the input for the rovers and is in text/plain format in 
 1 2 N     // position of the 1st rover - format is X Y [NSWE] where N, S, W and E stand for the 4 points of the compass
 RMML      // instruction string for the 1st rover - L to rotate left, M to move forward by 1 unit, R to rotate right
 3 3 W     // position of a 2nd rover
-          // instructiond for the 2nd rover - they can be empty if you do not wish to move this rover
+          // instructions for the 2nd rover - it can be an empty string if you do not wish to move this rover
 2 4 S     // position of a 3rd rover
 LLMRM     // instruction for the 3rd rover
-....      // you can add as many rovers as you want - but your input must have an odd number of lines and at least 3 lines (that's for one rover only) 
+....      // you can add as many rovers as you want - but your input must have an odd number of lines and at least 3 lines 
  
 ```
 
@@ -96,7 +96,7 @@ Here are some possible responses for the API. The response format is JSON
   
 * **Some instructions could not be executed because some rovers would have collided.**
 
-  The rover that would have collided stays at its initial position. The other rovers move normally. 
+  The rovers that would collide stay at their initial positions. The other rovers move normally. 
 
   Input
   ```
@@ -121,9 +121,9 @@ Here are some possible responses for the API. The response format is JSON
     ]
   }   
   ```
-  * **Some instructions could not be executed because some rovers would have gone over the edge of the plateau.**
+* **Some instructions could not be executed because some rovers would have gone over the edge of the plateau.**
 
-    The rover that would have fallen off a cliff stays at its initial position. The other rovers move normally.
+    The rovers that would fall off a cliff stay at their initial position. The other rovers move normally.
   
   Input
   ```
