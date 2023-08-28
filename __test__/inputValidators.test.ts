@@ -131,4 +131,3 @@ describe("Checking that rover instruction string can be validated (validateRover
         expect(validateRoverInstructions("LML LMR")).toBe(false)
     })
 })
-

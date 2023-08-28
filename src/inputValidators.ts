@@ -61,7 +61,8 @@ const validateRoverInstructions = (roverInstructions: string): boolean => {
 
 const validateRoverPositionsAgainstCollisions = (roverPositions: Array<string>): boolean => {
   /**
-   * Check if there are collisions by checking if any rover position (excluding the orientation) appears several times. Returns false if there is any collision, true otherwise
+   * Check if there are collisions by checking if any rover position (excluding the orientation) appears several times. 
+   * Returns false if there is any collision, true otherwise
    * @param {Array<string>} roverPositions - array of the positions of all the rovers
    */
   let foundDuplicatedPositions: boolean = false
